@@ -6,13 +6,14 @@ import { Input, Button, DatePicker, Space, Form, Select, } from 'antd';
 const TodoList = () => {
   const [message, setMessage] = useState("");
   const [description, setDescription] = useState("");
-  const [messageList, setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState(JSON.parse(localStorage.getItem("todos")) || []);
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("")
   const { TextArea } = Input;
   const [form] = Form.useForm();
 
   useEffect(() => {
+    console.log("Current List", messageList);
     localStorage.setItem("todos", JSON.stringify(messageList));
   }, [messageList]);
 
@@ -32,6 +33,12 @@ const TodoList = () => {
     console.log('onOk: ', value);
   }
 
+  function removeItem(id) {
+    console.log(id);
+    const todoLists = messageList.filter(todo => todo.id !== id)
+    setMessageList(todoLists);
+  }
+
   function onFinish(values) {
     setMessageList(messageList => [
       ...messageList,
@@ -40,7 +47,7 @@ const TodoList = () => {
         message,
         category,
         date,
-        description
+        description,
       }
     ]
     );
@@ -48,6 +55,7 @@ const TodoList = () => {
     setCategory("");
     setDate("");
     setDescription("");
+    form.resetFields();
     console.log('Success:', values);
   };
 
@@ -81,7 +89,7 @@ const TodoList = () => {
       >
         <Space direction="vertical" size={12}>
           <Form.Item
-            label="Username"
+            label="Task Name"
             name="username"
             rules={[
               {
@@ -136,6 +144,7 @@ const TodoList = () => {
             <DatePicker showTime onChange={onChange} onOk={onOk} />
           </Form.Item>
 
+
           <Form.Item wrapperCol={{ span: 24, offset: 10 }} >
             <Button type="primary" htmlType="submit" >Add task</Button> {'     '}
             <Button htmlType="button" onClick={onReset}>
@@ -144,7 +153,8 @@ const TodoList = () => {
           </Form.Item>
         </Space>
       </Form>
-      <DisplayList />
+      
+      <DisplayList deleteItem={removeItem} />
     </div>
   )
 }
