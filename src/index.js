@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom'; //render our app, spec app component and other
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import BasicExample from './routes/route';
+import Routes from './routes/route';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Routes />
   </React.StrictMode>,
   document.getElementById('root')
 );

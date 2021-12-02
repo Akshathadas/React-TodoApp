@@ -10,8 +10,8 @@ class App extends Component {
       <div>
         <p><b> TO-DO APPLICATION </b></p>
 
-        <TodoInput />
-        
+
+        {/* <TodoInput /> */}
         {/* <Texts/> */}
       </div>
 
